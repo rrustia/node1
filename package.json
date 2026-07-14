@@ -1,0 +1,25 @@
+{
+  "name": "node-skill-demo",
+  "version": "1.0.0",
+  "description": "A beginner friendly Node.js project that demonstrates practical backend skills.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "rest-api",
+    "beginner"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.1"
+  }
+}
