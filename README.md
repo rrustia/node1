@@ -1,7 +1,7 @@
 # Node.js Skill Demo Project
 
 This project is a beginner friendly REST API for tracking money transactions.
-I built it to demonstrate practical Node.js skills in a way that is easy to study and run.
+It was built to demonstrate practical Node.js skills in a way that is easy to study and run.
 
 ## What This Project Demonstrates
 

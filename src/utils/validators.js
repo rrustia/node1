@@ -1,11 +1,17 @@
+// Creates an Error instance with an attached HTTP status code.
+// Input: message string and optional statusCode number.
+// Output: Error object carrying statusCode for middleware handling.
 function createValidationError(message, statusCode = 400) {
   const error = new Error(message);
   error.statusCode = statusCode;
   return error;
 }
 
+// Validates a transaction payload and throws on the first invalid field.
+// Input: payload value expected to be a transaction-like object.
+// Output: no return value; throws validation errors when checks fail.
 function assertValidTransactionPayload(payload) {
-  // I am checking for a plain object because beginners often send arrays or empty values by accident.
+  // A plain object is required because arrays and primitives are invalid request bodies.
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
     throw createValidationError("Body must be a JSON object");
   }

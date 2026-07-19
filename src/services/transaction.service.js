@@ -3,13 +3,19 @@ const { randomUUID } = require("crypto");
 const repository = require("../repositories/transaction.repository");
 const { createValidationError, assertValidTransactionPayload } = require("../utils/validators");
 
+// Retrieves all transactions ordered by most recent date first.
+// Input: no arguments.
+// Output: Promise resolving to a sorted Transaction[] list.
 async function getAll() {
   const transactions = await repository.readAll();
 
-  // I am sorting by date descending so the latest entries appear first in the response.
+  // Latest entries appear first for easier API consumption.
   return [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
+// Finds one transaction by identifier.
+// Input: id string.
+// Output: Promise resolving to a Transaction object or throws 404 validation error.
 async function getById(id) {
   const transactions = await repository.readAll();
   const found = transactions.find((transaction) => transaction.id === id);
@@ -21,6 +27,9 @@ async function getById(id) {
   return found;
 }
 
+// Validates and stores a new transaction record.
+// Input: payload object with description, amount, type, category, and date.
+// Output: Promise resolving to the created Transaction object.
 async function create(payload) {
   assertValidTransactionPayload(payload);
 
@@ -40,6 +49,9 @@ async function create(payload) {
   return transaction;
 }
 
+// Validates payload and updates one existing transaction.
+// Input: id string and payload object.
+// Output: Promise resolving to the updated Transaction object.
 async function update(id, payload) {
   assertValidTransactionPayload(payload);
 
@@ -66,6 +78,9 @@ async function update(id, payload) {
   return updated;
 }
 
+// Deletes a transaction by id.
+// Input: id string.
+// Output: Promise resolving when deletion is saved or throws 404 validation error.
 async function remove(id) {
   const transactions = await repository.readAll();
   const initialLength = transactions.length;
@@ -78,6 +93,9 @@ async function remove(id) {
   await repository.writeAll(filtered);
 }
 
+// Builds totals, balance, and category aggregates across all records.
+// Input: no arguments.
+// Output: Promise resolving to a summary object with totals and byCategory values.
 async function getSummary() {
   const transactions = await repository.readAll();
 

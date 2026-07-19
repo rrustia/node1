@@ -3,8 +3,10 @@ const path = require("path");
 
 const dataFilePath = path.join(__dirname, "../../data/transactions.json");
 
+// Ensures the storage file exists before read/write operations.
+// Input: no direct arguments; uses configured data file path.
+// Output: resolves when the file exists, creating it when missing.
 async function ensureDataFile() {
-  // I am creating the data file on demand so the app still works on a fresh clone.
   try {
     await fs.access(dataFilePath);
   } catch {
@@ -13,12 +15,18 @@ async function ensureDataFile() {
   }
 }
 
+// Loads every transaction record from disk.
+// Input: no arguments.
+// Output: Promise resolving to Transaction[] parsed from JSON.
 async function readAll() {
   await ensureDataFile();
   const raw = await fs.readFile(dataFilePath, "utf8");
   return JSON.parse(raw);
 }
 
+// Persists the full transaction list to disk.
+// Input: transactions array of plain objects.
+// Output: Promise resolving after the file write completes.
 async function writeAll(transactions) {
   const stableJson = JSON.stringify(transactions, null, 2);
   await fs.writeFile(dataFilePath, `${stableJson}\n`, "utf8");

@@ -8,8 +8,10 @@ const app = require("../src/app");
 
 const dataFilePath = path.join(__dirname, "../data/transactions.json");
 
+// Resets transaction storage so each test starts from a clean state.
+// Input: no arguments.
+// Output: Promise resolving after transactions.json is rewritten.
 async function resetData() {
-  // I am resetting the file before each test so every test starts from a clean state.
   await fs.writeFile(dataFilePath, "[]\n", "utf8");
 }
 

@@ -4,8 +4,9 @@ const controller = require("../controllers/transactions.controller");
 
 const router = express.Router();
 
-// I am mapping each endpoint to a clear controller method.
-// I keep this file focused on route definitions so it stays easy to scan.
+// Each endpoint is mapped to a controller method in one place.
+// Input: HTTP requests that match transaction API paths.
+// Output: control is passed to the matching controller handler.
 router.get("/", controller.getAllTransactions);
 router.get("/summary", controller.getSummary);
 router.get("/:id", controller.getTransactionById);

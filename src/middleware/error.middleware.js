@@ -1,12 +1,16 @@
 function notFoundHandler(req, res) {
-  // I am returning JSON for unknown routes so client apps always receive a predictable format.
+  // Unknown routes get a predictable JSON response.
+  // Input: any request that bypasses registered endpoints.
+  // Output: HTTP 404 with an error message.
   res.status(404).json({
     error: "Route not found"
   });
 }
 
 function errorHandler(error, req, res, next) {
-  // I am normalizing every thrown error into one response shape to make debugging easier.
+  // Errors are normalized into one response shape for clients.
+  // Input: error object plus Express req/res/next.
+  // Output: HTTP error response with a consistent JSON body.
   const statusCode = error.statusCode || 500;
   const message = statusCode === 500 ? "Internal server error" : error.message;
 

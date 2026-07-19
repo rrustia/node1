@@ -5,14 +5,19 @@ const { notFoundHandler, errorHandler } = require("./middleware/error.middleware
 
 const app = express();
 
-// I am enabling JSON parsing so incoming request bodies become normal JavaScript objects.
-// I do this early so every route can safely read req.body without manual parsing.
+// Express JSON middleware parses incoming JSON bodies for later route handlers.
+// Input: HTTP requests with JSON payloads.
+// Output: req.body contains parsed JavaScript values.
 app.use(express.json());
 
-// I am mounting the feature routes under /api so the URL structure stays consistent.
+// Transaction routes are mounted under a stable API path.
+// Input: requests targeting /api/transactions.
+// Output: request flow is delegated to the transactions router.
 app.use("/api/transactions", transactionsRouter);
 
-// I am adding a simple health endpoint to quickly confirm that my server is alive.
+// A quick health handler confirms that the service is reachable.
+// Input: GET /api/health request.
+// Output: a small JSON status response.
 app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",
@@ -20,10 +25,14 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// I am using a dedicated not found handler so unknown routes return a friendly JSON response.
+// Unknown routes are handled with a consistent JSON not-found response.
+// Input: requests that do not match registered routes.
+// Output: HTTP 404 with an error payload.
 app.use(notFoundHandler);
 
-// I am placing the error handler at the end so it can catch errors from all previous middleware.
+// The global error middleware stays last so it can catch prior failures.
+// Input: errors passed through next(error) or thrown in async flows.
+// Output: normalized JSON error response.
 app.use(errorHandler);
 
 module.exports = app;
