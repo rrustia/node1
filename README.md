@@ -1,7 +1,6 @@
 # Node.js Skill Demo Project
 
-This project is a beginner friendly REST API for tracking money transactions.
-It was built to demonstrate practical Node.js skills in a way that is easy to study and run.
+This project is a REST API for tracking money transactions.
 
 ## What This Project Demonstrates
 
@@ -62,8 +61,8 @@ node1/
 
 ## Installation
 
-1. Open a terminal in this project folder.
-2. Install dependencies:
+1. Open a terminal or PowerShell in this project folder.
+2. Install dependencies by running this command in that terminal:
 
 ```bash
 npm install
@@ -72,6 +71,8 @@ npm install
 ## Running the API
 
 ### Start in normal mode
+
+Open a terminal or PowerShell in the project folder and run:
 
 ```bash
 npm start
@@ -83,6 +84,8 @@ The server runs at:
 
 ### Start in watch mode for development
 
+Open a terminal or PowerShell in the project folder and run:
+
 ```bash
 npm run dev
 ```
@@ -91,7 +94,7 @@ Watch mode automatically restarts the server when you save files.
 
 ## Testing All Functionalities
 
-Run:
+Open a terminal or PowerShell in the project folder and run:
 
 ```bash
 npm test
@@ -115,12 +118,20 @@ Base URL:
 
 - http://localhost:3000/api
 
+Response format:
+
+- Successful reads and writes normally return JSON in a `{ data: ... }` envelope.
+- Delete requests return HTTP 204 with no response body.
+- Transactions are returned from newest to oldest by date.
+
 ### 1. Health Check
 
 - Method: GET
 - URL: /health
 
 Example:
+
+Run this in a terminal or PowerShell:
 
 ```bash
 curl http://localhost:3000/api/health
@@ -138,6 +149,8 @@ curl http://localhost:3000/api/health
   - date: valid date string
 
 Example:
+
+Run this in a terminal or PowerShell:
 
 ```bash
 curl -X POST http://localhost:3000/api/transactions \
@@ -158,6 +171,8 @@ curl -X POST http://localhost:3000/api/transactions \
 
 Example:
 
+Run this in a terminal or PowerShell:
+
 ```bash
 curl http://localhost:3000/api/transactions
 ```
@@ -168,6 +183,8 @@ curl http://localhost:3000/api/transactions
 - URL: /transactions/:id
 
 Example:
+
+Run this in a terminal or PowerShell:
 
 ```bash
 curl http://localhost:3000/api/transactions/YOUR_ID_HERE
@@ -180,6 +197,8 @@ curl http://localhost:3000/api/transactions/YOUR_ID_HERE
 - Body: same structure as create
 
 Example:
+
+Run this in a terminal or PowerShell:
 
 ```bash
 curl -X PUT http://localhost:3000/api/transactions/YOUR_ID_HERE \
@@ -200,6 +219,8 @@ curl -X PUT http://localhost:3000/api/transactions/YOUR_ID_HERE \
 
 Example:
 
+Run this in a terminal or PowerShell:
+
 ```bash
 curl -X DELETE http://localhost:3000/api/transactions/YOUR_ID_HERE
 ```
@@ -210,6 +231,8 @@ curl -X DELETE http://localhost:3000/api/transactions/YOUR_ID_HERE
 - URL: /transactions/summary
 
 Example:
+
+Run this in a terminal or PowerShell:
 
 ```bash
 curl http://localhost:3000/api/transactions/summary
@@ -227,7 +250,7 @@ Example response meaning:
 
 - If you see port already in use, close the old server process and run npm start again.
 - Data is stored in data/transactions.json.
-- If you want a fresh state, you can clear that file and keep [] as the content.
+- If you want a fresh state, you can clear the file at data/transactions.json and keep [] as the content.
 - Tests reset the data file before each scenario so tests stay reliable.
 
 ## Learning Path Suggestion

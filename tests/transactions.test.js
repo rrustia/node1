@@ -22,6 +22,14 @@ test("GET /api/health should confirm server health", async () => {
   assert.equal(response.body.status, "ok");
 });
 
+test("GET / should return a friendly welcome response", async () => {
+  const response = await request(app).get("/");
+
+  assert.equal(response.statusCode, 200);
+  assert.equal(response.body.status, "ok");
+  assert.match(response.body.message, /api/i);
+});
+
 test("POST and GET flow should create and fetch a transaction", async () => {
   await resetData();
 

@@ -25,6 +25,16 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// The app root provides a friendly landing response for direct browser visits.
+// Input: GET / request.
+// Output: JSON guidance about the available API endpoints.
+app.get("/", (req, res) => {
+  res.json({
+    status: "ok",
+    message: "Welcome to the transaction API. Use /api/health or /api/transactions."
+  });
+});
+
 // Unknown routes are handled with a consistent JSON not-found response.
 // Input: requests that do not match registered routes.
 // Output: HTTP 404 with an error payload.
