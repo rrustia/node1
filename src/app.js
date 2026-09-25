@@ -1,9 +1,12 @@
 const express = require("express");
+const path = require("path");
 
 const transactionsRouter = require("./routes/transactions.routes");
 const { notFoundHandler, errorHandler } = require("./middleware/error.middleware");
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, "../public")));
 
 // Express JSON middleware parses incoming JSON bodies for later route handlers.
 // Input: HTTP requests with JSON payloads.
@@ -25,14 +28,11 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// The app root provides a friendly landing response for direct browser visits.
+// The app root serves the browser dashboard for direct visits.
 // Input: GET / request.
-// Output: JSON guidance about the available API endpoints.
+// Output: the single-page transaction dashboard.
 app.get("/", (req, res) => {
-  res.json({
-    status: "ok",
-    message: "Welcome to the transaction API. Use /api/health or /api/transactions."
-  });
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 // Unknown routes are handled with a consistent JSON not-found response.

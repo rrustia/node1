@@ -22,12 +22,12 @@ test("GET /api/health should confirm server health", async () => {
   assert.equal(response.body.status, "ok");
 });
 
-test("GET / should return a friendly welcome response", async () => {
+test("GET / should serve the transaction dashboard", async () => {
   const response = await request(app).get("/");
 
   assert.equal(response.statusCode, 200);
-  assert.equal(response.body.status, "ok");
-  assert.match(response.body.message, /api/i);
+  assert.match(response.headers["content-type"], /text\/html/);
+  assert.match(response.text, /Ledger/);
 });
 
 test("POST and GET flow should create and fetch a transaction", async () => {

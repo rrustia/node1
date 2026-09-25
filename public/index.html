@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A clear, calm dashboard for tracking personal transactions." />
+    <title>Ledger / transaction dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/dashboard.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Ledger home">
+          <span class="brand-mark" aria-hidden="true">+</span>
+          <span>ledger</span>
+        </a>
+        <div class="topbar-meta">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Local workspace</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="intro" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">Personal finance / <span id="today-label">Today</span></p>
+            <h1 id="page-title">Know where<br /><em>it goes.</em></h1>
+          </div>
+          <button class="button button-primary" id="new-transaction-button" type="button">
+            <span aria-hidden="true">+</span> New transaction
+          </button>
+        </section>
+
+        <section class="summary-grid" aria-label="Financial summary">
+          <article class="summary-card balance-card">
+            <div class="card-label"><span class="card-icon">↗</span> Net balance</div>
+            <strong class="summary-value" id="balance-value">$0.00</strong>
+            <span class="summary-note" id="balance-note">Your current position</span>
+          </article>
+          <article class="summary-card income-card">
+            <div class="card-label"><span class="card-icon">↓</span> Money in</div>
+            <strong class="summary-value" id="income-value">$0.00</strong>
+            <span class="summary-note">Total income</span>
+          </article>
+          <article class="summary-card expense-card">
+            <div class="card-label"><span class="card-icon">↑</span> Money out</div>
+            <strong class="summary-value" id="expense-value">$0.00</strong>
+            <span class="summary-note">Total expenses</span>
+          </article>
+        </section>
+
+        <section class="workspace-grid">
+          <div class="transactions-panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Activity</p>
+                <h2>Transactions <span class="count-pill" id="transaction-count">0</span></h2>
+              </div>
+              <label class="search-box">
+                <span class="sr-only">Search transactions</span>
+                <span aria-hidden="true">⌕</span>
+                <input id="search-input" type="search" placeholder="Search" />
+              </label>
+            </div>
+            <div class="filter-row" role="group" aria-label="Filter transactions">
+              <button class="filter-button is-active" type="button" data-filter="all">All</button>
+              <button class="filter-button" type="button" data-filter="income">Income</button>
+              <button class="filter-button" type="button" data-filter="expense">Expenses</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Description</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Date</th>
+                    <th scope="col" class="amount-column">Amount</th>
+                    <th scope="col"><span class="sr-only">Actions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="transaction-list"></tbody>
+              </table>
+              <div class="empty-state" id="empty-state" hidden>
+                <div class="empty-mark">∅</div>
+                <h3>No transactions yet</h3>
+                <p>Add your first entry and your overview will take shape here.</p>
+                <button class="button button-secondary" id="empty-add-button" type="button">Add transaction</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="category-panel">
+            <div class="section-heading compact-heading">
+              <div>
+                <p class="eyebrow">Distribution</p>
+                <h2>By category</h2>
+              </div>
+              <span class="mini-symbol" aria-hidden="true">◒</span>
+            </div>
+            <div class="category-list" id="category-list"></div>
+            <p class="category-footnote" id="category-footnote">Categories update as you add activity.</p>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="transaction-dialog" id="transaction-dialog">
+      <form class="transaction-form" id="transaction-form" method="dialog">
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow" id="form-eyebrow">New entry</p>
+            <h2 id="form-title">Add transaction</h2>
+          </div>
+          <button class="icon-button" id="close-dialog-button" type="button" aria-label="Close dialog">×</button>
+        </div>
+        <div class="form-grid">
+          <label class="field field-wide">
+            <span>Description</span>
+            <input id="description-input" name="description" type="text" placeholder="e.g. Monthly salary" minlength="3" required />
+          </label>
+          <label class="field">
+            <span>Amount</span>
+            <div class="input-with-prefix"><b>$</b><input id="amount-input" name="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required /></div>
+          </label>
+          <label class="field">
+            <span>Type</span>
+            <select id="type-input" name="type" required>
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Category</span>
+            <input id="category-input" name="category" type="text" placeholder="e.g. Home" minlength="2" required />
+          </label>
+          <label class="field">
+            <span>Date</span>
+            <input id="date-input" name="date" type="date" required />
+          </label>
+        </div>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+        <div class="dialog-actions">
+          <button class="button button-quiet" id="cancel-dialog-button" type="button">Cancel</button>
+          <button class="button button-primary" id="save-button" type="submit">Save transaction</button>
+        </div>
+      </form>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

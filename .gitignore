@@ -25,6 +25,12 @@ coverage/
 dist/
 build/
 
+# Frontend source files
+!public/
+!public/*.html
+!public/*.css
+!public/*.js
+
 # Caches
 .npm/
 .eslintcache
